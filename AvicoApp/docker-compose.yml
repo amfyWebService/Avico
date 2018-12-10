@@ -1,0 +1,23 @@
+version: '3'
+services:
+  db:
+    image: "microsoft/mssql-server-linux"
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "4merica:FUCK"
+      ACCEPT_EULA: "Y"
+    volumes: 
+      - ./db:/var/opt/mssql
+    # healthcheck:
+    #   test: sqlcmd -S db1.internal.prod.example.com -U SA -P '4merica:FUCK' -Q 'select 1'
+
+  avico:
+    build: .
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+    ports:
+      - "8080:443"
+    depends_on:
+      - db
+        
