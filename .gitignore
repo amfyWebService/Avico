@@ -24,13 +24,13 @@ _UpgradeReport_Files/
 ###############
 Avico.Tests/bin/
 Avico.Tests/obj/
-AvicoFD/bin/
-AvicoFD/obj/
+AvicoApp/bin/
+AvicoApp/obj/
 TestResults/
-AvicoFD/node_modules/
+AvicoApp/node_modules/
 wwwroot/build/
 .vscode/
-AvicoFD/.vscode/
+AvicoApp/.vscode/
 ###################
 # Web publish log #
 ###################

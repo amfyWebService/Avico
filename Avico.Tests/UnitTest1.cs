@@ -15,10 +15,10 @@ namespace Avico.Tests
 
         private readonly ApplicationDbContext _context;
 
-        public UnitTest1(ApplicationDbContext context){
-            _context = context;
-            _hotelController = new HotelController(context);
-        }
+        // public UnitTest1(ApplicationDbContext context){
+        //     _context = context;
+        //     _hotelController = new HotelController(context);
+        // }
 
         [Fact]
         public void Test1()
@@ -30,9 +30,9 @@ namespace Avico.Tests
         [Fact]
         public async Task Test_should_create_hotel()
         {
-            Hotel hotel = new Hotel(){
-                Description = "teet"
-            };
+            // Hotel hotel = new Hotel(){
+            //     Description = "teet"
+            // };
             // var result =  await _hotelController.Create(hotel);
             // var viewResult = Assert.IsType<ViewResult>(result);
         }
