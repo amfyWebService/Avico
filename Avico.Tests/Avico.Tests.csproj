@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AvicoFD\AvicoFD.csproj" />
+    <ProjectReference Include="..\AvicoApp\AvicoApp.csproj" />
   </ItemGroup>
 
 </Project>

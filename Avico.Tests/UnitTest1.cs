@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using AvicoFD.Controllers;
-using AvicoFD.Data;
-using AvicoFD.Models;
+using AvicoApp.Controllers;
+using AvicoApp.Data;
+using AvicoApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
 

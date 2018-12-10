@@ -22,12 +22,15 @@ _UpgradeReport_Files/
 ###############
 # Directories #
 ###############
-bin/
-obj/
+Avico.Tests/bin/
+Avico.Tests/obj/
+AvicoFD/bin/
+AvicoFD/obj/
 TestResults/
-node_modules/
+AvicoFD/node_modules/
 wwwroot/build/
 .vscode/
+AvicoFD/.vscode/
 ###################
 # Web publish log #
 ###################
@@ -78,4 +81,3 @@ _[Ss]cripts
 *.ncrunchsolution
 *.dot[Cc]over
 
-db/
