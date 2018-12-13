@@ -26,6 +26,8 @@ namespace AvicoApp.Models
 
         public HotelRoom HotelRoom { get; set; }
 
+        public AvicoUser User { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (this.NumberOfRooms > this.HotelRoom.HowManyIsAvailable(this.ArrivalDate, this.DepartureDate))

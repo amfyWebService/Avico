@@ -29,7 +29,9 @@ namespace AvicoApp.Models
         [Column(TypeName = "varchar(255)"), EmailAddress]
         public string Mail { get; set; }
 
-        public IEnumerable<Review> Reviews { get; set; }  = Enumerable.Empty<Review>();
+        public IEnumerable<Review> Reviews { get; set; } = Enumerable.Empty<Review>();
+
+        public AvicoUser Manager { get; set; }
 
         [NotMapped]
         public double AvgGrade { 

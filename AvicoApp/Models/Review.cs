@@ -14,6 +14,8 @@ namespace AvicoApp.Models
         public int Grade { get; set; }
         
         public Establishment Establishment { get; set; }
+        
+        public AvicoUser User { get; set; }
 
     }
 }
