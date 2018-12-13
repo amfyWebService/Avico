@@ -59,6 +59,7 @@ AvicoApp/.vscode/
 *.log
 *.sqlite
 app.db
+AvicoApp/db/
 # OS generated files #
 ######################
 .DS_Store?

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -8,23 +9,20 @@ namespace AvicoApp.Models
 {
     public class Hotel : Establishment
     {
-        public IEnumerable<HotelRoom> HotelRooms { get; set; }
+        public IEnumerable<HotelRoom> HotelRooms { get; set; } = Enumerable.Empty<HotelRoom>();
 
-        // public Hotel (string name, string description, string pictureUrl = "", string tel = "", string mail = ""){
-        //     this.Name = name;
-        //     this.Description = description;
-        //     this.PictureUrl = pictureUrl;
-        //     this.Tel = tel;
-        //     this.Mail = mail;
-        //     this.HotelRooms = Enumerable.Empty<HotelRoom>();
-        // }
-
-        public int HowManyHotelRoomsAvailableToday(){
-            return this.HowManyHotelRoomsAvailable(DateTime.Today);
+        [DisplayName("Rooms available")]
+        public int HowManyHotelRoomsAvailableToday{
+            get {
+                return this.HowManyHotelRoomsAvailable(DateTime.Today);
+            }
         }
+
         public int HowManyHotelRoomsAvailable(DateTime startDate){
             return this.HowManyHotelRoomsAvailable(startDate, null);
         }
+
+        [DisplayName("Rooms available")]
         public int HowManyHotelRoomsAvailable(DateTime startDate, DateTime? endDate)
         {
             int roomsAvailable = 0;

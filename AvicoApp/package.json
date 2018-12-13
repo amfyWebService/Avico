@@ -1,5 +1,5 @@
 {
-  "name": "avicofd",
+  "name": "avico",
   "version": "1.0.0",
   "description": "Avico .net of Farsen &amp; David",
   "main": "index.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amfyWebService/AvicoFD.git"
+    "url": "git+https://github.com/amfyWebService/Avico.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/amfyWebService/AvicoFD/issues"
+    "url": "https://github.com/amfyWebService/Avico/issues"
   },
-  "homepage": "https://github.com/amfyWebService/AvicoFD#readme",
+  "homepage": "https://github.com/amfyWebService/Avico#readme",
   "dependencies": {
     "bootstrap": "^4.1.3",
     "jquery": "^3.3.1",

@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.HowManyHotelRoomsAvailableToday())
+                @Html.DisplayNameFor(model => model.HowManyHotelRoomsAvailableToday)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
@@ -38,9 +38,10 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
+    
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.HowManyHotelRoomsAvailable(DateTime.Today, DateTime.Today.AddDays(1)))
+                @Html.DisplayFor(modelItem => item.HowManyHotelRoomsAvailableToday)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
