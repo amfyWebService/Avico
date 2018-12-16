@@ -1,3 +1,15 @@
 @import "variable";
 @import "~bootstrap/scss/bootstrap";
 @import "site";
+
+.carousel-inner > .carousel-item > img {
+    width:640px;
+    height:360px;
+}
+
+.descriptionCard {
+    color: black;
+}
+.descriptionCard:hover{
+    color: black;
+}
