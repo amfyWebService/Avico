@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Identity;
 
 namespace AvicoApp.Models
 {
-    public class AvicoUser: IdentityUser
+    public class ApplicationUser: IdentityUser
     {
-        [PersonalData, Required, Column(TypeName = "varchar(255)")]
-        public string FirstName { get; set; }
+        // [PersonalData, Required, Column(TypeName = "varchar(255)")]
+        // public string FirstName { get; set; }
 
-        [PersonalData, Required, Column(TypeName = "varchar(255)")]
-        public string LastName { get; set; }
+        // [PersonalData, Required, Column(TypeName = "varchar(255)")]
+        // public string LastName { get; set; }
 
         public IEnumerable<Establishment> Establishments { get; set; } = Enumerable.Empty<Establishment>();
 

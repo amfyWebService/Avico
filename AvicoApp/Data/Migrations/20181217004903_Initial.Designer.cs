@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace AvicoApp.Migrations
+namespace AvicoApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181213144508_AvicoUser")]
-    partial class AvicoUser
+    [Migration("20181217004903_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace AvicoApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("AvicoApp.Models.AvicoUser", b =>
+            modelBuilder.Entity("AvicoApp.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -35,14 +35,6 @@ namespace AvicoApp.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -90,8 +82,7 @@ namespace AvicoApp.Migrations
 
                     b.Property<DateTime>("DepartureDate");
 
-                    b.Property<int?>("HotelRoomID")
-                        .IsRequired();
+                    b.Property<int>("HotelRoomId");
 
                     b.Property<int>("NumberOfRooms");
 
@@ -102,7 +93,7 @@ namespace AvicoApp.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("HotelRoomID");
+                    b.HasIndex("HotelRoomId");
 
                     b.HasIndex("UserId");
 
@@ -157,8 +148,7 @@ namespace AvicoApp.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.Property<int?>("HotelID")
-                        .IsRequired();
+                    b.Property<int>("HotelId");
 
                     b.Property<int>("NumberOfRooms");
 
@@ -166,7 +156,7 @@ namespace AvicoApp.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("HotelID");
+                    b.HasIndex("HotelId");
 
                     b.ToTable("HotelRooms");
                 });
@@ -179,8 +169,7 @@ namespace AvicoApp.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int?>("EstablishmentID")
-                        .IsRequired();
+                    b.Property<int>("EstablishmentId");
 
                     b.Property<int>("Grade");
 
@@ -189,7 +178,7 @@ namespace AvicoApp.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("EstablishmentID");
+                    b.HasIndex("EstablishmentId");
 
                     b.HasIndex("UserId");
 
@@ -334,18 +323,17 @@ namespace AvicoApp.Migrations
                 {
                     b.HasOne("AvicoApp.Models.HotelRoom", "HotelRoom")
                         .WithMany("Bookings")
-                        .HasForeignKey("HotelRoomID")
+                        .HasForeignKey("HotelRoomId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("AvicoApp.Models.AvicoUser", "User")
+                    b.HasOne("AvicoApp.Models.ApplicationUser", "User")
                         .WithMany("Bookings")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("AvicoApp.Models.Establishment", b =>
                 {
-                    b.HasOne("AvicoApp.Models.AvicoUser", "Manager")
+                    b.HasOne("AvicoApp.Models.ApplicationUser", "Manager")
                         .WithMany("Establishments")
                         .HasForeignKey("ManagerId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -378,7 +366,7 @@ namespace AvicoApp.Migrations
                 {
                     b.HasOne("AvicoApp.Models.Hotel", "Hotel")
                         .WithMany("HotelRooms")
-                        .HasForeignKey("HotelID")
+                        .HasForeignKey("HotelId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -386,13 +374,12 @@ namespace AvicoApp.Migrations
                 {
                     b.HasOne("AvicoApp.Models.Establishment", "Establishment")
                         .WithMany("Reviews")
-                        .HasForeignKey("EstablishmentID")
+                        .HasForeignKey("EstablishmentId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("AvicoApp.Models.AvicoUser", "User")
+                    b.HasOne("AvicoApp.Models.ApplicationUser", "User")
                         .WithMany("Reviews")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -405,7 +392,7 @@ namespace AvicoApp.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("AvicoApp.Models.AvicoUser")
+                    b.HasOne("AvicoApp.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -413,7 +400,7 @@ namespace AvicoApp.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("AvicoApp.Models.AvicoUser")
+                    b.HasOne("AvicoApp.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -426,7 +413,7 @@ namespace AvicoApp.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("AvicoApp.Models.AvicoUser")
+                    b.HasOne("AvicoApp.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -434,7 +421,7 @@ namespace AvicoApp.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("AvicoApp.Models.AvicoUser")
+                    b.HasOne("AvicoApp.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

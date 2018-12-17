@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AvicoApp.Data;
 using AvicoApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AvicoApp.Controllers
 {
@@ -44,6 +45,7 @@ namespace AvicoApp.Controllers
         }
 
         // GET: Hotel/Create
+        [Authorize(Policy = "RequireManager")]
         public IActionResult Create()
         {
             return View();
@@ -53,7 +55,7 @@ namespace AvicoApp.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken, Authorize(Policy = "RequireManager")]
         public async Task<IActionResult> Create([Bind("Name,Description,PictureUrl,Tel,Mail")] Hotel hotel)
         {
             if (ModelState.IsValid)
@@ -66,6 +68,7 @@ namespace AvicoApp.Controllers
         }
 
         // GET: Hotel/Edit/5
+        [Authorize(Policy = "RequireManagerAndOwner")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,7 +88,7 @@ namespace AvicoApp.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken, Authorize(Policy = "RequireManagerAndOwner")]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Description,PictureUrl,Tel,Mail")] Hotel hotel)
         {
             if (id != hotel.ID)
@@ -117,6 +120,7 @@ namespace AvicoApp.Controllers
         }
 
         // GET: Hotel/Delete/5
+        [Authorize(Policy = "RequireManagerAndOwner")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,7 +140,7 @@ namespace AvicoApp.Controllers
 
         // POST: Hotel/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken, Authorize(Policy = "RequireManagerAndOwner")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var hotel = await _context.Hotel.FindAsync(id);

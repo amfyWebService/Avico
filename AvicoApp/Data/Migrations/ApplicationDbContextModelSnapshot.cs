@@ -4,16 +4,14 @@ using AvicoApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace AvicoApp.Migrations
+namespace AvicoApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181213092946_EntitiesWithValidationCreated")]
-    partial class EntitiesWithValidationCreated
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,152 +19,7 @@ namespace AvicoApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("AvicoApp.Models.Booking", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("ArrivalDate");
-
-                    b.Property<DateTime>("DepartureDate");
-
-                    b.Property<int?>("HotelRoomID")
-                        .IsRequired();
-
-                    b.Property<int>("NumberOfRooms");
-
-                    b.Property<int>("PeopleNumber");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("HotelRoomID");
-
-                    b.ToTable("Bookings");
-                });
-
-            modelBuilder.Entity("AvicoApp.Models.Establishment", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .IsRequired();
-
-                    b.Property<string>("Mail")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)")
-                        .HasMaxLength(255);
-
-                    b.Property<string>("PictureUrl")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Tel")
-                        .HasColumnType("varchar(15)");
-
-                    b.Property<string>("establishment_type")
-                        .IsRequired();
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Establishments");
-
-                    b.HasDiscriminator<string>("establishment_type").HasValue("Establishment");
-                });
-
-            modelBuilder.Entity("AvicoApp.Models.HotelRoom", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(255);
-
-                    b.Property<int?>("HotelID")
-                        .IsRequired();
-
-                    b.Property<int>("NumberOfRooms");
-
-                    b.Property<int>("PeopleNumber");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("HotelID");
-
-                    b.ToTable("HotelRooms");
-                });
-
-            modelBuilder.Entity("AvicoApp.Models.Review", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description");
-
-                    b.Property<int?>("EstablishmentID")
-                        .IsRequired();
-
-                    b.Property<int>("Grade");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("EstablishmentID");
-
-                    b.ToTable("Reviews");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ClaimType");
-
-                    b.Property<string>("ClaimValue");
-
-                    b.Property<string>("RoleId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetRoleClaims");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+            modelBuilder.Entity("AvicoApp.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -215,6 +68,163 @@ namespace AvicoApp.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("AvicoApp.Models.Booking", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("ArrivalDate");
+
+                    b.Property<DateTime>("DepartureDate");
+
+                    b.Property<int>("HotelRoomId");
+
+                    b.Property<int>("NumberOfRooms");
+
+                    b.Property<int>("PeopleNumber");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("HotelRoomId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Bookings");
+                });
+
+            modelBuilder.Entity("AvicoApp.Models.Establishment", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .IsRequired();
+
+                    b.Property<string>("Mail")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ManagerId")
+                        .IsRequired();
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("PictureUrl")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Tel")
+                        .HasColumnType("varchar(15)");
+
+                    b.Property<string>("establishment_type")
+                        .IsRequired();
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ManagerId");
+
+                    b.ToTable("Establishments");
+
+                    b.HasDiscriminator<string>("establishment_type").HasValue("Establishment");
+                });
+
+            modelBuilder.Entity("AvicoApp.Models.HotelRoom", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.Property<int>("HotelId");
+
+                    b.Property<int>("NumberOfRooms");
+
+                    b.Property<int>("PeopleNumber");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("HotelId");
+
+                    b.ToTable("HotelRooms");
+                });
+
+            modelBuilder.Entity("AvicoApp.Models.Review", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("EstablishmentId");
+
+                    b.Property<int>("Grade");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("EstablishmentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -311,12 +321,21 @@ namespace AvicoApp.Migrations
                 {
                     b.HasOne("AvicoApp.Models.HotelRoom", "HotelRoom")
                         .WithMany("Bookings")
-                        .HasForeignKey("HotelRoomID")
+                        .HasForeignKey("HotelRoomId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("AvicoApp.Models.ApplicationUser", "User")
+                        .WithMany("Bookings")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("AvicoApp.Models.Establishment", b =>
                 {
+                    b.HasOne("AvicoApp.Models.ApplicationUser", "Manager")
+                        .WithMany("Establishments")
+                        .HasForeignKey("ManagerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.OwnsOne("AvicoApp.Models.Address", "Address", b1 =>
                         {
                             b1.Property<int?>("EstablishmentID")
@@ -345,7 +364,7 @@ namespace AvicoApp.Migrations
                 {
                     b.HasOne("AvicoApp.Models.Hotel", "Hotel")
                         .WithMany("HotelRooms")
-                        .HasForeignKey("HotelID")
+                        .HasForeignKey("HotelId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -353,8 +372,12 @@ namespace AvicoApp.Migrations
                 {
                     b.HasOne("AvicoApp.Models.Establishment", "Establishment")
                         .WithMany("Reviews")
-                        .HasForeignKey("EstablishmentID")
+                        .HasForeignKey("EstablishmentId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("AvicoApp.Models.ApplicationUser", "User")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -367,7 +390,7 @@ namespace AvicoApp.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("AvicoApp.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -375,7 +398,7 @@ namespace AvicoApp.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("AvicoApp.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -388,7 +411,7 @@ namespace AvicoApp.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("AvicoApp.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -396,7 +419,7 @@ namespace AvicoApp.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                    b.HasOne("AvicoApp.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);

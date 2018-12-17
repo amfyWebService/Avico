@@ -7,7 +7,7 @@ using AvicoApp.Models.Validation;
 
 namespace AvicoApp.Models
 {
-    public class Booking : IValidatableObject
+    public class Booking : IValidatableObject, IIsOwner
     {
         [Key]
         public int ID { get; set; }
@@ -24,9 +24,16 @@ namespace AvicoApp.Models
         [Required, Range(1, double.MaxValue)]
         public int NumberOfRooms { get; set; }
 
+        public int HotelRoomId { get; set; }
         public HotelRoom HotelRoom { get; set; }
 
-        public AvicoUser User { get; set; }
+        public string UserId { get; set; }
+        public ApplicationUser User { get; set; }
+
+        public bool IsOwner(ApplicationUser user)
+        {
+            return this.UserId == user.Id;
+        }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

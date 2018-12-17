@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AvicoApp.Models
 {
-    public abstract class Establishment
+    public abstract class Establishment: IIsOwner
     {
         [Key]
         public int ID { get; private set; }
@@ -31,7 +31,8 @@ namespace AvicoApp.Models
 
         public IEnumerable<Review> Reviews { get; set; } = Enumerable.Empty<Review>();
 
-        public AvicoUser Manager { get; set; }
+        public string ManagerId { get; set; }
+        public ApplicationUser Manager { get; set; }
 
         [NotMapped]
         public double AvgGrade { 
@@ -43,6 +44,11 @@ namespace AvicoApp.Models
                 return (from review in this.Reviews
                     select review.Grade).Average();
             } 
+        }
+
+        public bool IsOwner(ApplicationUser user)
+        {
+            return this.ManagerId == user.Id;
         }
     }
 }
