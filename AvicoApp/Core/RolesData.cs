@@ -23,13 +23,13 @@ namespace AvicoApp.Core {
 
                 if (dbContext.Database.GetPendingMigrations ().Any ()) {
                     await dbContext.Database.MigrateAsync ();
+                }
 
-                    var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>> ();
+                var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>> ();
 
-                    foreach (var role in Roles) {
-                        if (!await roleManager.RoleExistsAsync (role)) {
-                            await roleManager.CreateAsync (new IdentityRole (role));
-                        }
+                foreach (var role in Roles) {
+                    if (!await roleManager.RoleExistsAsync (role)) {
+                        await roleManager.CreateAsync (new IdentityRole (role));
                     }
                 }
             }
