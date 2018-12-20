@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AvicoApp.Data;
 using AvicoApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AvicoApp.Controllers
 {
@@ -44,6 +45,7 @@ namespace AvicoApp.Controllers
         }
 
         // GET: Review/Create
+        [Authorize(Policy = "RequireClient")]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +56,7 @@ namespace AvicoApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "RequireClient")]
         public async Task<IActionResult> Create([Bind("ID,Description,Grade")] Review review)
         {
             if (ModelState.IsValid)
@@ -66,6 +69,7 @@ namespace AvicoApp.Controllers
         }
 
         // GET: Review/Edit/5
+        [Authorize(Policy = "RequireClient")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,6 +90,7 @@ namespace AvicoApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "RequireClient")]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Description,Grade")] Review review)
         {
             if (id != review.ID)
@@ -117,6 +122,7 @@ namespace AvicoApp.Controllers
         }
 
         // GET: Review/Delete/5
+        [Authorize(Policy = "RequireClient")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,6 +143,7 @@ namespace AvicoApp.Controllers
         // POST: Review/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "RequireClient")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var review = await _context.Reviews.FindAsync(id);
