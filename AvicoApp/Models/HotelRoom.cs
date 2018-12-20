@@ -8,7 +8,7 @@ namespace AvicoApp.Models
     public class HotelRoom
     {
         [Key]
-        public int ID { get; private set; }
+        public int ID { get; set; }
 
         [Required, MaxLength(255)]
         public string Description { get; set; }

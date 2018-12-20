@@ -14,22 +14,43 @@ namespace Avico.Tests.Services
 {
 
     public class HotelServicesTests : IClassFixture<InMemoryDbFixture>
-    {
-        private InMemoryDbFixture _fixture;
-        
-        public HotelServicesTests(InMemoryDbFixture fixture)
+    {        
+        private readonly ApplicationDbContext _context;
+        public HotelServicesTests()
         {
-            _fixture = fixture;
         }
 
         [Fact]
-        public async Task test_should_display_empty_list_hotel()
+        public async Task IndexReturnsARedirectToIndexHotel()
         {
-            // var uow = new UnitOfWork<ApplicationDbContext>(_fixture.);
-            // var repo = uow.GetRepository<TestProduct>();
-            // HotelServices service = _fixture.GetService<HotelServices>();
-            // List<Hotel> hotels = await service.ListHotels();
-            // Assert.Empty(hotels);
+             // Arrange
+            var controller = new HotelController(this._context);
+
+            // Act
+            var result = await controller.Index();
+
+            // Assert
+            var redirectToActionResult = 
+                Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("Hotel", redirectToActionResult.ControllerName);
+            Assert.Equal("Index", redirectToActionResult.ActionName);
         }
+        // private List<Hotel> GetTestHotels()
+        // {
+        //     var hotels = new List<Hotel>();
+        //     hotels.Add(new Hotel()
+        //     {
+        //         DateCreated = new DateTime(2016, 7, 2),
+        //         Id = 1,
+        //         Name = "Test One"
+        //     });
+        //     hotels.Add(new Hotel()
+        //     {
+        //         DateCreated = new DateTime(2016, 7, 1),
+        //         Id = 2,
+        //         Name = "Test Two"
+        //     });
+        //     return hotels;
+        // }
     }
 }

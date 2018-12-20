@@ -9,7 +9,8 @@ namespace AvicoApp.Models
     public abstract class Establishment
     {
         [Key]
-        public int ID { get; private set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int ID { get; set; }
 
         [Column(TypeName = "varchar(255)"), Required, MinLength(1), MaxLength(255)]
         public string Name { get; set; }
