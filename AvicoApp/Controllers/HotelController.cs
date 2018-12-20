@@ -7,21 +7,30 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AvicoApp.Data;
 using AvicoApp.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace AvicoApp.Controllers
 {
     public class HotelController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _um;
 
-        public HotelController(ApplicationDbContext context)
+        public HotelController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            this._um = userManager;
         }
 
         // GET: Hotel
         public async Task<IActionResult> Index()
         {
+            // await this._um.AddToRoleAsync(
+            //     await this._um.GetUserAsync(this.User),
+            //     "Manager"
+            // );
+
             return View(await _context.Hotel.ToListAsync());
         }
 
@@ -44,6 +53,7 @@ namespace AvicoApp.Controllers
         }
 
         // GET: Hotel/Create
+        [Authorize(Policy = "RequireManager")]
         public IActionResult Create()
         {
             return View();
@@ -53,12 +63,18 @@ namespace AvicoApp.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken, Authorize(Policy = "RequireManager")]
         public async Task<IActionResult> Create([Bind("Name,Description,PictureUrl,Tel,Mail")] Hotel hotel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(hotel);
+                ApplicationUser user = await this._um.GetUserAsync(this.User);
+                hotel.ManagerId = user.Id;
+                hotel.Manager = user;
+                user.Establishments.Add(hotel);
+
+                _context.Hotel.Add(hotel);
+                
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -66,6 +82,7 @@ namespace AvicoApp.Controllers
         }
 
         // GET: Hotel/Edit/5
+        [Authorize(Policy = "RequireManager")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,7 +102,7 @@ namespace AvicoApp.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken, Authorize(Policy = "RequireManager")]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Description,PictureUrl,Tel,Mail")] Hotel hotel)
         {
             if (id != hotel.ID)
@@ -117,6 +134,7 @@ namespace AvicoApp.Controllers
         }
 
         // GET: Hotel/Delete/5
+        [Authorize(Policy = "RequireManager")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,7 +154,7 @@ namespace AvicoApp.Controllers
 
         // POST: Hotel/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken, Authorize(Policy = "RequireManager")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var hotel = await _context.Hotel.FindAsync(id);

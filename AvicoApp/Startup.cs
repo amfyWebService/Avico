@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using AvicoApp.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using AvicoApp.Models;
+using AvicoApp.Core;
 
 namespace AvicoApp
 {
@@ -37,8 +39,12 @@ namespace AvicoApp
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+
+            services.AddDefaultIdentity<ApplicationUser>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            RolesData.DefinePolicies(services);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -62,6 +68,8 @@ namespace AvicoApp
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+            RolesData.SeedRoles(app.ApplicationServices).Wait();
 
             app.UseMvc(routes =>
             {

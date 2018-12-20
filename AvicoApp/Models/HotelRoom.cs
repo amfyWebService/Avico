@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AvicoApp.Models
 {
-    public class HotelRoom
+    public class HotelRoom: IIsOwner
     {
         [Key]
         public int ID { get; set; }
@@ -19,9 +19,10 @@ namespace AvicoApp.Models
         [Required, Range(0, double.MaxValue)]
         public int NumberOfRooms { get; set; }
 
+        public int HotelId { get; private set; }
         public Hotel Hotel { get; private set; }
 
-        public IEnumerable<Booking> Bookings { get; set; } = Enumerable.Empty<Booking>();
+        public List<Booking> Bookings { get; set; } = new List<Booking>();
 
         public int HowManyIsAvailable(DateTime startDate, DateTime? endDate = null)
         {
@@ -42,6 +43,11 @@ namespace AvicoApp.Models
             }
 
             return numbersUnavailable.Min();
+        }
+
+        public bool IsOwner(ApplicationUser user)
+        {
+            return this.Hotel.ManagerId == user.Id;
         }
     }
 }

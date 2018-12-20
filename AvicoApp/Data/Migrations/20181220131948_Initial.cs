@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace AvicoApp.Migrations
+namespace AvicoApp.Data.Migrations
 {
-    public partial class EntitiesWithValidationCreated : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,27 +45,6 @@ namespace AvicoApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Establishments",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
-                    Description = table.Column<string>(nullable: false),
-                    PictureUrl = table.Column<string>(type: "varchar(255)", nullable: true),
-                    Address_Street = table.Column<string>(type: "varchar(255)", nullable: true),
-                    Address_ZipCode = table.Column<string>(type: "varchar(255)", nullable: true),
-                    Address_City = table.Column<string>(type: "varchar(255)", nullable: true),
-                    Tel = table.Column<string>(type: "varchar(15)", nullable: true),
-                    Mail = table.Column<string>(type: "varchar(255)", nullable: true),
-                    establishment_type = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Establishments", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -175,6 +154,34 @@ namespace AvicoApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Establishments",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false),
+                    Description = table.Column<string>(nullable: false),
+                    PictureUrl = table.Column<string>(type: "varchar(255)", nullable: true),
+                    Address_Street = table.Column<string>(type: "varchar(255)", nullable: true),
+                    Address_ZipCode = table.Column<string>(type: "varchar(255)", nullable: true),
+                    Address_City = table.Column<string>(type: "varchar(255)", nullable: true),
+                    Tel = table.Column<string>(type: "varchar(15)", nullable: true),
+                    Mail = table.Column<string>(type: "varchar(255)", nullable: true),
+                    ManagerId = table.Column<string>(nullable: false),
+                    establishment_type = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Establishments", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Establishments_AspNetUsers_ManagerId",
+                        column: x => x.ManagerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "HotelRooms",
                 columns: table => new
                 {
@@ -183,14 +190,14 @@ namespace AvicoApp.Migrations
                     Description = table.Column<string>(maxLength: 255, nullable: false),
                     PeopleNumber = table.Column<int>(nullable: false),
                     NumberOfRooms = table.Column<int>(nullable: false),
-                    HotelID = table.Column<int>(nullable: false)
+                    HotelId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_HotelRooms", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_HotelRooms_Establishments_HotelID",
-                        column: x => x.HotelID,
+                        name: "FK_HotelRooms_Establishments_HotelId",
+                        column: x => x.HotelId,
                         principalTable: "Establishments",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -204,17 +211,24 @@ namespace AvicoApp.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(nullable: true),
                     Grade = table.Column<int>(nullable: false),
-                    EstablishmentID = table.Column<int>(nullable: false)
+                    EstablishmentId = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reviews", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Reviews_Establishments_EstablishmentID",
-                        column: x => x.EstablishmentID,
+                        name: "FK_Reviews_Establishments_EstablishmentId",
+                        column: x => x.EstablishmentId,
                         principalTable: "Establishments",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reviews_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -227,17 +241,24 @@ namespace AvicoApp.Migrations
                     ArrivalDate = table.Column<DateTime>(nullable: false),
                     DepartureDate = table.Column<DateTime>(nullable: false),
                     NumberOfRooms = table.Column<int>(nullable: false),
-                    HotelRoomID = table.Column<int>(nullable: false)
+                    HotelRoomId = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bookings", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Bookings_HotelRooms_HotelRoomID",
-                        column: x => x.HotelRoomID,
+                        name: "FK_Bookings_HotelRooms_HotelRoomId",
+                        column: x => x.HotelRoomId,
                         principalTable: "HotelRooms",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bookings_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -280,19 +301,34 @@ namespace AvicoApp.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bookings_HotelRoomID",
+                name: "IX_Bookings_HotelRoomId",
                 table: "Bookings",
-                column: "HotelRoomID");
+                column: "HotelRoomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HotelRooms_HotelID",
+                name: "IX_Bookings_UserId",
+                table: "Bookings",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Establishments_ManagerId",
+                table: "Establishments",
+                column: "ManagerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HotelRooms_HotelId",
                 table: "HotelRooms",
-                column: "HotelID");
+                column: "HotelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_EstablishmentID",
+                name: "IX_Reviews_EstablishmentId",
                 table: "Reviews",
-                column: "EstablishmentID");
+                column: "EstablishmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_UserId",
+                table: "Reviews",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -322,13 +358,13 @@ namespace AvicoApp.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "HotelRooms");
 
             migrationBuilder.DropTable(
                 name: "Establishments");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }
