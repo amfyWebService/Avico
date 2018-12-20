@@ -5,7 +5,7 @@ namespace AvicoApp.Models
     public class Review
     {
         [Key]
-        public int ID { get; private set; }
+        public int ID { get; set; }
         
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
