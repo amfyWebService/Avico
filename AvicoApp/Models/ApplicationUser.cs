@@ -14,10 +14,10 @@ namespace AvicoApp.Models
         // [PersonalData, Required, Column(TypeName = "varchar(255)")]
         // public string LastName { get; set; }
 
-        public IEnumerable<Establishment> Establishments { get; set; } = Enumerable.Empty<Establishment>();
+        public List<Establishment> Establishments { get; set; } = new List<Establishment>();
 
-        public IEnumerable<Booking> Bookings { get; set; } = Enumerable.Empty<Booking>();
+        public List<Booking> Bookings { get; set; } = new List<Booking>();
 
-        public IEnumerable<Review> Reviews { get; set; } = Enumerable.Empty<Review>();
+        public List<Review> Reviews { get; set; } = new List<Review>();
     }
 }

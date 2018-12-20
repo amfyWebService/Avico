@@ -22,7 +22,7 @@ namespace AvicoApp.Models
         public int HotelId { get; private set; }
         public Hotel Hotel { get; private set; }
 
-        public IEnumerable<Booking> Bookings { get; set; } = Enumerable.Empty<Booking>();
+        public List<Booking> Bookings { get; set; } = new List<Booking>();
 
         public int HowManyIsAvailable(DateTime startDate, DateTime? endDate = null)
         {

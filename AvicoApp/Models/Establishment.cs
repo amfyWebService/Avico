@@ -29,7 +29,7 @@ namespace AvicoApp.Models
         [Column(TypeName = "varchar(255)"), EmailAddress]
         public string Mail { get; set; }
 
-        public IEnumerable<Review> Reviews { get; set; } = Enumerable.Empty<Review>();
+        public List<Review> Reviews { get; set; } = new List<Review>();
 
         public string ManagerId { get; set; }
         public ApplicationUser Manager { get; set; }

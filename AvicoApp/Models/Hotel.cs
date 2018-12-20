@@ -9,7 +9,7 @@ namespace AvicoApp.Models
 {
     public class Hotel : Establishment
     {
-        public IEnumerable<HotelRoom> HotelRooms { get; set; } = Enumerable.Empty<HotelRoom>();
+        public List<HotelRoom> HotelRooms { get; set; } = new List<HotelRoom>();
 
         [DisplayName("Rooms available")]
         public int HowManyHotelRoomsAvailableToday{
